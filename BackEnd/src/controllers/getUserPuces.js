@@ -2,7 +2,7 @@ const Puce = require('../models/puceModel')
 
 const User = require('../models/userModel')
 
-
+    // get puces by user 
         const getUserPuces = async (req,res) => {
            try {
                 const {userId} = req.params;

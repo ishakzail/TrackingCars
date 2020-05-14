@@ -3,11 +3,11 @@ const router = express.Router();
 
 const Register = require('../controllers/register');
 const Login = require('../controllers/login');
-const checkConfirmToken = require('../controllers/functions/checkConfirmToken');
-const sendResetEmail = require('../controllers/functions/sendResetEmail');
-const resetPassword = require('../controllers/resetPassword');
-const AddPuce = require('../controllers/addPuce')
-const getPuces = require('../controllers/getPuces')
+const Profile = require('../controllers/profile')
+const requireToken = require('../controllers/functions/requireToken')
+
+// const AddPuce = require('../controllers/addPuce')
+// const getPuces = require('../controllers/getPuces')
 
 const newUserPuce = require('../controllers/newUserPuce')
 const getUserPuces = require('../controllers/getUserPuces')
@@ -15,14 +15,13 @@ const getUserPuces = require('../controllers/getUserPuces')
 
 router.post('/register', Register);
 router.post('/login', Login);
-router.post('/confirmEmail', checkConfirmToken);
-router.post('/sendResetEmail', sendResetEmail);
-router.post('/resetPassword', resetPassword);
-router.post('/add' , AddPuce)
-router.get('/allPuces' , getPuces)
+router.get('/profil' , requireToken ,Profile )
 
-router.post('/:userId/puces' , newUserPuce);
-router.get('/:userId/puces' , getUserPuces);
+// router.post('/add' , AddPuce)
+// router.get('/allPuces' , getPuces)
+
+router.post('/:userId/Newpuces' , newUserPuce);
+router.get('/:userId/Getpuces' , getUserPuces);
 
 
 

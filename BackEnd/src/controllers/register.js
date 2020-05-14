@@ -2,7 +2,7 @@ const tools = require('../tools/index')
 const mongoose = require('mongoose')    
 const bcrypt = require('bcrypt')
 const crypto = require('crypto')
-const EM = require('./functions/email')
+
 
 const User = require('../models/userModel')
 
@@ -17,7 +17,7 @@ const User = require('../models/userModel')
             const verifToken = crypto.randomBytes(64).toString('hex');
             
              const userData =  new User({
-            firstName, lastName, username, email, password,  role , isValid , verifToken
+            firstName, lastName, username, email, password,  role 
              });
              User.findOne({
                  username 
@@ -34,10 +34,9 @@ const User = require('../models/userModel')
                             
                             userData.password = await bcrypt.hash(password, 10);
                             User.create(userData);
-                            EM.sendEmail(email, verifToken);
-                            console.log('user created and confirmation email has been sent ')
+                            console.log('user created ')
                         
-                        res.send(verifToken)
+                        res.status(201).json('user created ');
                         }
                     
                     } else {

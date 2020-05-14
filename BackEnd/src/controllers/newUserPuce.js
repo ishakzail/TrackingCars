@@ -8,8 +8,9 @@ const tools = require('../tools/index')
     
 
     const newUserPuce = async (req , res) => {
-        const {userId} = req.params;
-
+        try {
+            const {userId} = req.params;
+            console.log(req.params)
         // create a new puce 
         const { latitude , longitude , legend , Name} = req.body
 
@@ -20,7 +21,7 @@ const tools = require('../tools/index')
 
         // get User 
         const user = await User.findById(userId)
-
+            console.log(user)
         // assign the user to the puce 
 
         newPuce.owner = user ;
@@ -31,13 +32,20 @@ const tools = require('../tools/index')
 
 
         //  add puce to the user  array  'puces' 
-
+        
         user.puces.push(newPuce);
 
         // save user 
         await user.save();
 
         res.status(201).json(newPuce);
+
+        } 
+        
+        catch (error) {
+            res.send("error" + error)
+        }
+        
 
     }
 

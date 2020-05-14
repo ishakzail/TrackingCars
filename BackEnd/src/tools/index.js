@@ -1,4 +1,4 @@
-// eEpty 
+// Empty 
 const isEmpty = require("./empty/isEmpty")
 
 // String

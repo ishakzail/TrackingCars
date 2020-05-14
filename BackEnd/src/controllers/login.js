@@ -1,6 +1,7 @@
 const bcrypt = require ('bcrypt');
 const User = require('../models/userModel');
 var jwt = require('jsonwebtoken');
+const {jwtkey } = require('../config/keys')
 
 Login =  async (req, res) => {
     const {username, password} = req.body;
@@ -9,14 +10,11 @@ Login =  async (req, res) => {
         if(userData) {
             const isCorrect = await bcrypt.compare(password , userData.password) 
             if(isCorrect) {
-                if(userData.isValid){
+               
                     const data = JSON.parse(JSON.stringify(userData));
-                    let token = await jwt.sign(data, 'SecretKey');
+                    let token = await jwt.sign(data, jwtkey);
                     userData.token = token;
                     res.send({token : userData.token}  )
-                }
-                else 
-                    res.send('you account is not confirmed')
             }
             else 
                 res.send('password is not correct')

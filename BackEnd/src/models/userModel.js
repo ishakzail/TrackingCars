@@ -10,19 +10,13 @@ const UserSchema = new mongoose.Schema({
         type: String,
        required : true
       },
-    isValid : {
-      type: Boolean,
-      default : false
-    },
-
     email: {
       type: String,
       required : true
     },
     role: {
       type: String,
-      default: "user",
-      enum: ["user", "admin"]
+      default: "user"
     },
     username: {
       type: String,
@@ -31,10 +25,6 @@ const UserSchema = new mongoose.Schema({
     password: {
       type: String,
       required : true
-    },
-    verifToken : {
-        type: String,
-        
     },
     puces : [{
       type : mongoose.Schema.Types.ObjectId,
