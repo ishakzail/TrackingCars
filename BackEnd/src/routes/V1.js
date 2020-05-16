@@ -10,7 +10,8 @@ const requireToken = require('../controllers/functions/requireToken')
 // const getPuces = require('../controllers/getPuces')
 
 const newUserPuce = require('../controllers/newUserPuce')
-const getUserPuces = require('../controllers/getUserPuces')
+const getPuceByUser = require('../controllers/getUserPuces')
+const deleteUserPuce = require('../controllers/deleteUserPuce')
 
 
 router.post('/register', Register);
@@ -21,7 +22,8 @@ router.get('/profil' , requireToken ,Profile )
 // router.get('/allPuces' , getPuces)
 
 router.post('/:userId/Newpuces' , newUserPuce);
-router.get('/:userId/Getpuces' , getUserPuces);
+router.get('/:userId/Getpuces' , getPuceByUser);
+router.delete('/:userId/deletePuce/:puceId' , deleteUserPuce);
 
 
 

@@ -14,12 +14,12 @@ module.exports = (req,  res , next) => {
         jwt.verify(token,jwtkey,async (err,payload)=>{
             try {
                 if(err){
-              return  res.status(401).send(err)
-            }
-            const {userId} = payload;
-            const user = await User.findById(userId)
-            req.user=user;
-            console.log(req.user)
+                        return  res.status(401).send(err)
+                    }
+                const {userId} = payload;
+                const user = await User.findById(userId)
+                req.user=user;
+            
             } catch (error) {
              res.send('error jwt :' + error)  
             }

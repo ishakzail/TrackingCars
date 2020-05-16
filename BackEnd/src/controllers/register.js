@@ -12,9 +12,9 @@ const User = require('../models/userModel')
         
         try {
             const role = "user";
-            const isValid = false
-            console.log('vdnqvs')
-            const verifToken = crypto.randomBytes(64).toString('hex');
+             // const isValid = false
+            
+            // const verifToken = crypto.randomBytes(64).toString('hex');
             
              const userData =  new User({
             firstName, lastName, username, email, password,  role 

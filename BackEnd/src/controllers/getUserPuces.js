@@ -6,9 +6,25 @@ const User = require('../models/userModel')
         const getUserPuces = async (req,res) => {
            try {
                 const {userId} = req.params;
-
-                const user = await User.findById(userId).populate('puces')
-                res.status(201).json(user.puces)
+                /* on utilise la methode populate pour selectionner 
+                juste les puces d'un utulisateur  */
+                await User.findById(userId).populate('puces')
+                .then((resp) =>{
+                    if(resp){
+                        // console.log(resp)
+                        res.status(201).json(resp.puces)
+                        console.log(resp.puces)
+                    }
+                    else{
+                        console.log('there is no puce')
+                    }
+                    
+                })
+                .catch(err =>{
+                    console.log('error get puce' + err)
+                })
+                 // res.status(201).json(user.puces)
+               
            } catch (error) {
                console.log(error)
            } 
