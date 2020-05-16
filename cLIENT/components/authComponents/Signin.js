@@ -26,11 +26,11 @@ const Signin = (props) => {
     })
     // console.log(resp.data)
     
-    .then(async (data) => {
-      console.log(data.data.token)
+    .then(async (resp) => {
+      console.log(resp.data)
       try {
-          await AsyncStorage.setItem('token',data.data.token)
-          
+          await AsyncStorage.setItem('token', resp.data.token)
+         
                   props.navigation.replace("Home")
           } catch (e) {
               console.log("error :",e)

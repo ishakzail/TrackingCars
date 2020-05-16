@@ -3,8 +3,8 @@ import { View , Text ,StyleSheet , TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 
 const ListItem = ({item , deleteItem}) => {
-  return (
 
+  return (
     <TouchableOpacity style={styles.listItem}>
         <View styles={styles.listItemView} >
             <Text style={styles.listItemText}>{item.text}</Text>
