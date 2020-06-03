@@ -1,7 +1,7 @@
-const  User = require('../models/userModel')
-const Puce = require('../models/puceModel')
+const  User = require('../../models/userModel')
+const Puce = require('../../models/puceModel')
 const jwt = require('jsonwebtoken')
-const {jwtkey } = require('../config/keys')
+const {jwtkey } = require('../../config/keys')
 
 const Profile =   (req, res) => {
     const token = req.headers

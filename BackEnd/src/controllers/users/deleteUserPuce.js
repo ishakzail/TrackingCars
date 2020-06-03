@@ -1,7 +1,7 @@
 
-const User = require('../models/userModel')
+const User = require('../../models/userModel')
 
-const Puce = require('../models/puceModel')
+const Puce = require('../../models/puceModel')
 
 // get puces by user 
     const deleteUserPuce = async (req,res) => {

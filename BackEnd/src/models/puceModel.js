@@ -3,12 +3,15 @@ const mongoose = require('mongoose')
 
 const PuceSchema = new mongoose.Schema({
     latitude: {
-      type: Number,
+      type: [Number],
      required : true
     }, 
     longitude: {
-        type: Number,
+        type: [Number],
        required : true
+    },
+    speed : {
+      type : [Number]
     },
     legend: {
       type: String,
