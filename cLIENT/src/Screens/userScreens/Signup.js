@@ -23,7 +23,7 @@ const Signup = (props) => {
     // const [ dataUser , setDataUser ] = useState('');
 
   const sendCred= async (props)=>{
-    const response = await axios.post('http://10.0.2.2:5000/register', {
+    const response = await axios.post('http://192.168.1.105:5000/register', {
       "email":email,
       "password":password,
       "confirmPassword" : confirmPassword,
@@ -78,9 +78,11 @@ const Signup = (props) => {
 
   return (
    <> 
-   <KeyboardAvoidingView behavior="position">
    <ScrollView>
+   <KeyboardAvoidingView behavior="position">
+   
      <StatusBar backgroundColor="blue" barStyle="light-content" />
+     
       <Text 
       style={{fontSize:35,marginLeft:18,marginTop:10,color:"#3b3b3b"}}>welcome to</Text>
       <Text 
@@ -170,8 +172,9 @@ const Signup = (props) => {
       onPress ={() => props.navigation.navigate("Signin")} 
       >already have a account ?</Text>
       </TouchableOpacity>
-      </ScrollView>
+      
     </KeyboardAvoidingView>
+    </ScrollView>
    </>
   );
 };

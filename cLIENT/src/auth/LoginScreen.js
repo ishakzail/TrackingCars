@@ -1,51 +1,51 @@
-import React,{useState} from 'react';
+import React ,   { Component  , useState , useEffect} from 'react'
+import {    View, Text  ,
+            SafeAreaView , Image ,
+            TouchableOpacity , ScrollView , 
+            StatusBar,
+            KeyboardAvoidingView,
+        }   from 'react-native';
 import { Button ,TextInput} from 'react-native-paper';
-import {
-  View,
-  Text,
-  StatusBar,
-  TouchableOpacity,
-  KeyboardAvoidingView
-} from 'react-native';
+import {CustomHeader} from '../components/index'
+import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage';
 
-const Login = (props) => {
 
 
-    // const emailConfirm = () => {
-    //     const response = await axios.get(`http://10.0.2.2:8081/confirmation/${verifToken}`)
-    //       console.log(response.data)
-    
-    // }
-    
 
-//   const [username, setUsername] = useState('');
+ export default function LoginScreen({navigation}) {
+
+  const [username, setUsername] = useState('');
   
-//   const [password,setPassword]=useState('')
+  const [password,setPassword]=useState('')
 
-//   const sendCred= async (props)=>{
+  const sendCred= async ()=>{
 
-//      fetch("http://10.0.2.2:5000/login",{
-//        method:"POST",
-//        headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       body:JSON.stringify({
-//         "username" : username,
-//         "password":password
-//       })
-//      })
-//      .then(res=>res.json())
-//      .then(async (data)=>{
-//             try {
-//               await AsyncStorage.setItem('token',data.token)
-//               props.navigation.replace("Home")
-//             } catch (e) {
-//               console.log("error ishak:",e)
-//             }
-//      })
-//   }
+    try {
+      await axios.post('http://192.168.1.105:5000/login' , {
+      "username" : username,
+      "password" : password
+    
+    })
+    
+    .then(async (resp ) => {
+      console.log('logged in !')
+      try {
+          await AsyncStorage.setItem('token', resp.data.token)
+                  
+                 navigation.navigate("HomeApp")
+          } catch (e) {
+              console.log('error navigaton or async',e)
+          }
+    })
+      } catch (error) {
+          console.log("error in login is: " + error)
+      }
+  
+  }
+  
   return (
+    
    <> 
    <KeyboardAvoidingView behavior="position">
      <StatusBar backgroundColor="blue" barStyle="light-content" />
@@ -74,7 +74,7 @@ const Login = (props) => {
         label='Username'
         mode="outlined"
         value={username}
-        style={{marginLeft:18,marginRight:18,marginTop:18}}
+        style={{marginLeft:18,marginRight:18,marginTop:18 ,borderRadius:10}}
         theme={{colors:{primary:"blue"}}}
         onChangeText={(text)=>(setUsername(text))}
       />
@@ -83,14 +83,14 @@ const Login = (props) => {
         mode="outlined"
         secureTextEntry={true}
         value={password}
-        style={{marginLeft:18,marginRight:18,marginTop:18}}
+        style={{marginLeft:18,marginRight:18,marginTop:18 ,borderRadius:40}}
         theme={{colors:{primary:"blue"}}}
         onChangeText={(text) => setPassword(text)}
       />
       <Button 
         mode="contained"
-        style={{marginLeft:18,marginRight:18,marginTop:18}}
-        onPress={() => sendCred(props)}
+        style={{marginLeft:68,marginRight:68,marginTop:28 ,borderRadius:40}}
+        onPress={() => sendCred()}
        >
         Login
       </Button>
@@ -99,20 +99,11 @@ const Login = (props) => {
       style={{
         fontSize:18,marginLeft:18,marginTop:20
       }}
-      onPress ={() => props.navigation.navigate("Signup")} 
+      onPress ={() => navigation.navigate("Register")} 
       >dont have an account ?</Text>
       </TouchableOpacity>
-      
       </KeyboardAvoidingView>
    </>
   );
-};
+}
 
-// const styles = StyleSheet.create({
-//   container : {
-//     flex : 1,
-//   },
-// });
-
-
-export default Login;

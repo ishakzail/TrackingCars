@@ -19,7 +19,7 @@ const Signin = (props) => {
   const sendCred= async (props)=>{
 
     try {
-      await axios.post("http://10.0.2.2:5000/login" , {
+      await axios.post(`http://192.168.1.105:5000/login` , {
       "username" : username,
       "password" : password
     
@@ -33,33 +33,13 @@ const Signin = (props) => {
          
                   props.navigation.replace("Home")
           } catch (e) {
-              console.log("error :",e)
+              console.log(e)
           }
     })
-    } catch (error) {
-        console.log("error is : " + error)
-    }
-    
+      } catch (error) {
+          console.log("error in login is: " + error)
+      }
 
-    //  fetch("http://10.0.2.2:5000/login",{
-    //    method:"POST",
-    //    headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body:JSON.stringify({
-    //     "username" : username,
-    //     "password":password
-    //   })
-    //  })
-    //  .then(res=>res.json())
-    //  .then(async (data)=>{
-    //         try {
-    //           await AsyncStorage.setItem('token',data.token)
-    //           props.navigation.replace("Home")
-    //         } catch (e) {
-    //           console.log("error ishak:",e)
-    //         }
-    //  })
   }
   return (
    <> 
