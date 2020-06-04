@@ -4,7 +4,7 @@ const Admin = require('../../models/adminModel')
  
 registerAdmin = async (req , res) => {
         const  { email, password} = req.body;
-
+        console.log(email)
         try {
                 const adminData = new Admin({
                     email , password

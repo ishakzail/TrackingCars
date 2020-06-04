@@ -1,40 +1,62 @@
 import React, { useState } from "react";
-import { Button, FormGroup, FormControl, ControlLabel,Alert } from "react-bootstrap";
+import { Button,Alert } from "react-bootstrap";
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import axios from 'axios'
-//import "./Login.css";
-//import Alert from 'react-bootstrap'
+import { Redirect } from "react-router-dom";
+
 const  Login = () =>{
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [errorPassword , setErrorPassword] = useState(null)
   const [errorEmail, setErrorEmail] = useState(null)
-  const [error, setError] = useState(false)
-//   function validateForm() {
-//     return email.length > 0 && password.length > 0;
-//   }
+  // function validateForm() {
+  //   return email.length > 0 && password.length > 0;
+  // }
 
   const handleSubmit = async (event)=> {
-    setError(true)
+    setErrorPassword(null)
+    setErrorEmail(null)
     const x = event.preventDefault();
     if(!email)
-        setErrorEmail('email is required!!!!')
+    {
+      setErrorEmail('email is required!!!!')
+    }
+       
     if(!password)
-        setErrorPassword('password is required!!!!')
+    {
+      setErrorPassword('password is required!!!!')
+    }
+        
         if(email && password){
+          
             const form = {
                 "email" : email,
                 "password" :password
             }
-            const res = await axios.post('http://localhost:5000/admin/login',form);
-            
-
-
+            const res = await axios.post('http://localhost:5000/loginAdmin',form);
+            const user = res.data;
+            if(user.data)
+            {
+              console.log(user.data)
+              localStorage.setItem('TOKEN', user.data.token);
+              //return <Redirect to='/' />
+            }
+            else
+            {
+              if(user.error === "email")
+              {
+                setErrorEmail('Email does not exist !! ');
+                 console.log(errorEmail);
+              }
+               
+              if(user.error === "password")
+              {
+                setErrorPassword('Password is not correct !!');
+              }
+                
+            }
         }
-  
-    console.log(email,password)
-    
   }
 
   return (
@@ -46,13 +68,13 @@ const  Login = () =>{
     <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} />
    
   </Form.Group>
-  {error && !email && <Alert  variant="danger" >{errorEmail}</Alert>}
+  {errorEmail && <Alert  variant="danger" >{errorEmail}</Alert>}
 
   <Form.Group controlId="formBasicPassword">
     <Form.Label>Password</Form.Label>
     <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
   </Form.Group>
-  {error && !password && <Alert  variant="danger" >{errorPassword}</Alert>}
+  {errorPassword && <Alert  variant="danger" >{errorPassword}</Alert>}
   <Button variant="primary" type="submit">
     Submit
   </Button>

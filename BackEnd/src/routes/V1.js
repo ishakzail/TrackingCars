@@ -47,8 +47,8 @@ const LoginAdmin = require('../controllers/admin/loginAdmin')
 const registerAdmin = require('../controllers/admin/registerAdmin')
 
 
-router.post('/admin/login' , LoginAdmin)
-router.post('/admin/register' , registerAdmin)
+router.post('/loginAdmin' , LoginAdmin)
+router.post('/adminRegister' , registerAdmin)
 
 
 
