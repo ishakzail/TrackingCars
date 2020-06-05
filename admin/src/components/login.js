@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form'
 import axios from 'axios'
 import { Redirect } from "react-router-dom";
 
-const  Login = () =>{
+const  Login = (props) =>{
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [errorPassword , setErrorPassword] = useState(null)
@@ -40,7 +40,7 @@ const  Login = () =>{
             {
               console.log(user.data)
               localStorage.setItem('TOKEN', user.data.token);
-              //return <Redirect to='/' />
+              props.history.push('/home')
             }
             else
             {
