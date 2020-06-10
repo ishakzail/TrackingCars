@@ -11,26 +11,27 @@ const Puce = require('../../models/puceModel')
         try{
 
         
-        const {latitude , longitude , speed , Name} = data
+        const { speed , Name} = data
 
          // const PuceData = {data}
          
         
-        console.log(" DataRecived from server : ", (data))
+         // console.log(" DataRecived from server : ", (data))
         const Pdata = await Puce.findOne(
                { Name}
-        )
-        
-           
+        ) 
                 try{
                     if(Pdata){
                         
-                        await Puce.updateOne(
+                        await Puce.updateMany(
                                 {Name : Name} ,
                                 { $push : {
-                                    latitude : data.latitude ,
-                                    longitude : data.longitude,
-                                    speed : data.speed
+                                    points : {
+                                            
+                                            lat : data.points.lat,
+                                            lng : data.points.lng,
+                                            speed : data.points.speed
+                                        }
                                     }
                                 } 
                             )

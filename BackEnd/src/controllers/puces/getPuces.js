@@ -6,8 +6,8 @@ const Puce = require('../models/puceModel')
         Puce.find(function(err, puces) {
             if (err)
                 res.send(err);
-
-            res.json(puces);
+            if(puces)
+            console.lgo('points puces :' , puces.points)
         });
     }
 

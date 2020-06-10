@@ -22,11 +22,16 @@ const deleteUserPuce = require('../controllers/users/deleteUserPuce')
 const editUserPuce = require('../controllers/users/editUserPuce')
 
 
+const getLastPosition = require('../controllers/puces/getLastPostion')
+
+
 router.post('/:userId/Newpuces' , newUserPuce);
-router.get('/:userId/Getpuces' , getPuceByUser);
+router.get('/:userId/getPuces' , getPuceByUser);
 router.delete('/:userId/deletePuce/:puceId' , deleteUserPuce);
 router.put('/:userId/editUserPuce/:puceId' , editUserPuce)
 
+
+router.get('/:userId/getLastPosition' , getLastPosition)
 
 
 
@@ -45,10 +50,14 @@ router.put('/:userId/editUserPuce/:puceId' , editUserPuce)
 
 const LoginAdmin = require('../controllers/admin/loginAdmin')
 const registerAdmin = require('../controllers/admin/registerAdmin')
+const getAllUsers = require('../controllers/admin/getAllUsers')
+const getAllPuces = require('../controllers/admin/getAllPuces')
 
 
 router.post('/loginAdmin' , LoginAdmin)
 router.post('/adminRegister' , registerAdmin)
+router.get('/getAllUsers' , getAllUsers)
+router.get('/getAllPuces' , getAllPuces)
 
 
 

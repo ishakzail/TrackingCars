@@ -1,18 +1,28 @@
 const mongoose = require('mongoose')
 
-
-const PuceSchema = new mongoose.Schema({
-    latitude: {
-      type: [Number],
-     required : true
-    }, 
-    longitude: {
-        type: [Number],
-       required : true
+const GeoSchema = new mongoose.Schema ({
+    type : {
+      type : String,
+      default : "Point"
+    },
+    lat : {
+      type : Number
+    },
+    lng : {
+      type : Number
     },
     speed : {
-      type : [Number]
+      type : Number
     },
+    registerAt : {
+      type : Date ,
+      default : Date.now
+    }
+    
+})
+
+
+const PuceSchema = new mongoose.Schema({
     legend: {
       type: String,
       required : true
@@ -23,7 +33,8 @@ const PuceSchema = new mongoose.Schema({
     owner : {
       type : mongoose.Schema.Types.ObjectId,
       ref : 'User'
-    }
+    },
+    points :[GeoSchema]
   },
   { timestamps: true }
 );

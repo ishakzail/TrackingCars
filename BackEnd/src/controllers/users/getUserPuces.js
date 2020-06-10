@@ -12,7 +12,7 @@ const User = require('../../models/userModel')
                     if(resp){
                         
                         res.status(201).json(resp.puces)
-                        console.log(resp.puces)
+                        console.log(resp.puces.points)
                     }
                     else{
                         res.send('there is no puce')
