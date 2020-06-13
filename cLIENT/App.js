@@ -16,16 +16,23 @@ import RegisterScreen  from './src/auth/RegisterScreen'
 import HomeScreen from './src/Screens/userScreens/HomeScreen'
 import HomeScreenDetail from './src/Screens/userScreens/HomeScreenDetail'
 import { SettingsScreen , SettingsScreenDetail } from './src/Screens'
-import NotificationScreen  from './src/drawer/NotificationsScreen'
+import EditProfile  from './src/drawer/EditProfile'
+import ViewProfile from './src/Screens/userScreens/ProfileScreen'
 
 import ListOfPucesScreen from './src/Screens/puceScreens/ListOfPucesScreen'
 import AddPuceScreen from './src/Screens/puceScreens/AddPuceScreen'
 import EditUsePuce from './src/Screens/puceScreens/EditUsePuce'
+import TrackPucesScreen from './src/Screens/puceScreens/TrackPucesScreen'
+import StatisticsScreen from './src/Screens/puceScreens/StatisticsScreen'
 
 
+
+import socket from './src/components/SocketConn'
 
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage';
+import jwt_decode from 'jwt-decode'
+
 
 
 
@@ -43,16 +50,24 @@ function TabNavigator(){
             iconName = focused
               ? require('././src/assets/images/home.png')
               : require('././src/assets/images/home-black.png');
-          } else if (route.name === 'PucesList') {
+          } else if (route.name === 'Cards List') {
             iconName = focused 
             ? require('././src/assets/images/list.png')
             : require('././src/assets/images/list-black.png');
-          } else if (route.name === 'AddPuce')
+          } else if (route.name === 'Add Card')
             iconName = focused
             ? require('././src/assets/images/add.png')
             : require('././src/assets/images/add-black.png')
+          else if (route.name === 'Track Cards')
+            iconName = focused
+            ? require('./src/assets/images/map.png')
+            : require('./src/assets/images/map-black.png')
+            else if (route.name === 'Statistics')
+            iconName = focused
+            ? require('./src/assets/images/statistics.png')
+            : require('./src/assets/images/statistics-black.png')
+          
 
-          // You can return any component that you like here!
           return <Image 
                     source={iconName} 
                     style ={{width : 20 , height : 20 , resizeMode : 'contain'}}  />
@@ -64,8 +79,10 @@ function TabNavigator(){
       }}
      >
      <Tab.Screen name="Home" component={HomeStack} />
-     <Tab.Screen name="AddPuce" component={AddPuceScreen} />
-     <Tab.Screen name="PucesList" component={ListOfPuceStack} />
+     <Tab.Screen name="Add Card" component={AddPuceScreen} />
+     <Tab.Screen name="Cards List" component={ListOfPuceStack} />
+     <Tab.Screen name="Track Cards" component={TrackPucesScreen} />
+     <Tab.Screen name="Statistics" component={StatisticsScreen} />
    </Tab.Navigator>
     )
 }
@@ -106,7 +123,8 @@ function DrawerNavigator({navigation}){
       initialRouteName="MenuTab" 
       drawerContent={() => <CustomDrawerContent navigation={navigation}/> }>
         <Drawer.Screen name="MenuTab" component={TabNavigator} />
-        <Drawer.Screen name="Notifications" component={NotificationScreen} />
+        <Drawer.Screen name="EditProfile" component={EditProfile} />
+        <Drawer.Screen name="ViewProfile" component={ViewProfile} />
     </Drawer.Navigator>
   )
 }
@@ -115,30 +133,60 @@ const StackApp = createStackNavigator();
 
 export default function App({navigation}) {
 
+  
+  socket.on('connect', async () => {
+
+    const token = await AsyncStorage.getItem('token')
+    const decoded = jwt_decode(token)
+
+    //console.log(decoded)
+
+    const userId = decoded._id
+
+    console.log('app js is connected ')
+
+    console.log('userId : ' , userId)
+
+    // emit a join event for creating a user room's in backend 
+    socket.emit('join' , userId)
+  });
+
+
+
+
+  
+
   const [isloggedin,setLogged] = useState(null)
 
   const detectLogin= async ()=>{
         const token = await AsyncStorage.getItem('token')
         
         if(token){
-          await  setLogged(true)
+            setLogged(true)
         }else{
-         await   setLogged(false)
+            setLogged(false)
         }
-        console.log('isLogged in ' ,isloggedin)
+        console.log('isLogged in :' , isloggedin)
   }
   useEffect(
     ()=>{ detectLogin()} ,
-    []);
+    [isloggedin]);
     
   return (
     
     <NavigationContainer>
     
      <StackApp.Navigator >
+      
+        
         <StackApp.Screen name="HomeApp" component ={DrawerNavigator} options={navOptionHandler}/>
+       
         <StackApp.Screen name="Login" component ={LoginScreen}  options={navOptionHandler}/>
         <StackApp.Screen name="Register" component = {RegisterScreen}  options={navOptionHandler}/>
+       
+        
+      
+        
     </StackApp.Navigator>
   
   </NavigationContainer>

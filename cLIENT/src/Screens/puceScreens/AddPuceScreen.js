@@ -28,7 +28,7 @@ const AddPuce = ({navigation}) =>{
   
       const userId = decoded._id
 
-      await Axios.post(`http://192.168.1.105:5000/${userId}/Newpuces`,{
+      await Axios.post(`http://192.168.1.110:5000/${userId}/Newpuces`,{
         "Name" : Name ,
         "legend" : legend
       })
@@ -36,9 +36,14 @@ const AddPuce = ({navigation}) =>{
         console.log('resp :' , resp.data)
         try {
           if(Name && legend)
-            await  navigation.navigate("PucesList")
+           { 
+            setName(resp.data.Name)
+            setLegend(resp.data.legend)
+             await  navigation.navigate("PucesList")
+            
+          }
           else 
-            alert('fields are empty')
+           { alert('fields are empty')}
         } catch (error) {
           console.log('error add puce axios :' + error)
         }
@@ -47,34 +52,34 @@ const AddPuce = ({navigation}) =>{
 
       return(
         <KeyboardAvoidingView behavior="position">
-         <CustomHeader title ="Add Puce" isHome={true} navigation ={navigation} />
-          <StatusBar backgroundColor="blue" barStyle="light-content" />
+         <CustomHeader title ="Add Card" isHome={true} navigation ={navigation} />
+          <StatusBar backgroundColor="green" barStyle="light-content" />
               
               <Text
               style={{
                 fontSize:20,marginLeft:18,marginTop:20
               }}
               
-              >Add new puce</Text>
+              >Add new card</Text>
               <TextInput
                 label='Name'
                 mode="outlined"
                 value={Name}
                 style={{marginLeft:18,marginRight:18,marginTop:18}}
-                theme={{colors:{primary:"blue"}}}
+                theme={{colors:{primary:"green"}}}
                 onChangeText={(text) => setName(text)}
               />
                 <TextInput
                 label='legend'
                 mode="outlined"
                 value={legend}
-                style={{marginLeft:18,marginRight:18,marginTop:18 , }}
-                theme={{colors:{primary:"blue"}}}
+                style={{marginLeft:18,marginRight:18,marginTop:18 }}
+                theme={{colors:{primary:"green"}}}
                 onChangeText={(text) => setLegend(text)}
               />
               <Button 
                 mode="contained"
-                style={{marginLeft:18,marginRight:18,marginTop:18 , borderRadius : 48 , backgroundColor : 'black'}}
+                style={{marginLeft:18,marginRight:18,marginTop:18 , borderRadius : 48 , backgroundColor : 'green'}}
                 onPress={ ()=> newUserPuce() }
                 >
                 ADD

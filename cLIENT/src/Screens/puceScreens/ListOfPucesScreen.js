@@ -30,13 +30,16 @@ class ListOfPuce extends React.Component{
             const userId = decoded._id
            //  const puceId = 
 
-           await axios.delete(`http://192.168.1.105:5000/${userId}/deletePuce/${puce}`)
-           .then (res =>{
-             console.log('res : ' + res.data)
-             this.setState({ 
+           await axios.delete(`http://192.168.1.110:5000/${userId}/deletePuce/${puce}`)
+           .then (async resp =>{
+            console.log('data is deleted !')
+            await this.setState({ 
                 PuceData : resp.data,
-                isLoading : false
+                isLoading : true
             })
+
+            this.componentDidMount()
+
 
            })
 
@@ -49,14 +52,14 @@ class ListOfPuce extends React.Component{
     };
 
     updatePuce =async  (id) =>{
-        console.log('id :' , id)
+    
       await  this.props.navigation.navigate('EditPuce' , {id : id}) 
     }
 
 
 
     renderPuce = ({item} ) => {
-       return(     
+       return(    
         <TouchableOpacity
         onPress = {() => ToastAndroid.show(item.Name , ToastAndroid.SHORT)}
         > 
@@ -68,26 +71,29 @@ class ListOfPuce extends React.Component{
                 <Text style={styles.listItemText}>
                     Legend : {item.legend}
                 </Text>
-                <Text style={styles.listItemText}>
-                    Created at : {(item.createdAt).toString()}
+                <Text>
+                    Created at : {(item.createdAt)}
                 </Text>
-                {/* <Icon 
+                </View>
+
+                <View style= {styles.icons}>
+                <Icon 
                     name="remove" 
                     size={20} 
                     color="firebrick" 
-                    
+                    style = { styles.icon }
                     onPress = { () => this.deletePuce(item._id) }
-                /> */}
+                />
                 <Icon 
                     name="edit" 
                     size={20} 
                     color="green" 
-                    
+                    style = { styles.icon }
                     onPress = { () => this.updatePuce(item._id)}
                 />
     
           
-            </View>
+                </View>
         </TouchableOpacity>
         )
     };
@@ -119,9 +125,9 @@ class ListOfPuce extends React.Component{
             
             
 
-            await axios.get(`http://192.168.1.105:5000/${userId}/Getpuces`)
+            await axios.get(`http://192.168.1.110:5000/${userId}/Getpuces`)
             .then((resp) => {
-                //console.log(resp.data)
+                console.log(resp.data)
                 this.setState({ 
                     PuceData : resp.data,
                     isLoading : false
@@ -163,15 +169,15 @@ class ListOfPuce extends React.Component{
             :
         
         <SafeAreaView style={styles.container}>
-         <CustomHeader title ="Puce List" isHome={true} navigation ={this.props.navigation} />
-            
+         <CustomHeader title ="Card List" isHome={true} navigation ={this.props.navigation} />
+                
                 <FlatList
                     data = {this.state.PuceData}
                     renderItem = {this.renderPuce}
                     keyExtractor = {(item , index )=> index.toString()}
                     ItemSeparatorComponent = {this.renderSeparator}
                 />
-             
+               
            
        </SafeAreaView>
           
@@ -203,6 +209,11 @@ const styles = StyleSheet.create({
     icon : {
         textAlign : 'right',
         marginLeft : 45
+    },
+    icons : {
+        textAlign : 'right',
+        flex : 1
+
     }
     
 });

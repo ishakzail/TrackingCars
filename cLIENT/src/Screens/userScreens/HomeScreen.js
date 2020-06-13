@@ -28,12 +28,12 @@ export default function HomeScreen ({navigation}) {
             <SafeAreaView style={{ flex: 1 }}>
               <CustomHeader title ="Home" isHome={true} navigation ={navigation} />
               <View style={{  flex : 1 , justifyContent : 'center' , alignItems : 'center' }}>
-                <Text> Home ! </Text>
-                <TouchableOpacity 
+                <Text> Welcome To Tracking App ! </Text>
+                {/* <TouchableOpacity 
                 style={{ marginTop : 20 }}
                 onPress = {() => navigation.navigate('HomeDetail')  } >
                     <Text> Go Home details </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </SafeAreaView>
           );

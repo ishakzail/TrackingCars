@@ -1,9 +1,12 @@
 import React , { Component  , useState , useEffect} from 'react'
-import { View, Text  , SafeAreaView  ,  Image , TouchableOpacity , ScrollView ,  KeyboardAvoidingView , StatusBar} from 'react-native';
+import { View, Text  , SafeAreaView  ,  Image , 
+  TouchableOpacity ,  ScrollView ,  KeyboardAvoidingView , StatusBar} from 'react-native';
 import CustomHeader from '../components/CustomHeader'
-import {Button , TextInput } from 'react-native-paper'
+import {Button , TextInput   } from 'react-native-paper'
+import axios from 'axios'
 
-export default function RegisterScreen ({navigation}) {
+
+export default function RegisterScreen (props) {
 
             const [password , setPassword] = useState('');
             const [confirmPassword , setConfirmPassword] = useState('');
@@ -14,40 +17,36 @@ export default function RegisterScreen ({navigation}) {
           
               // const [ dataUser , setDataUser ] = useState('');
           
-            const sendCred= async ()=>{
-              const response = await axios.post('http://192.168.1.105:5000/register', {
+            const sendCred= async (props)=>{
+
+              
+              try {
+                await axios.post(`http://192.168.1.110:5000/register`, {
                 "email":email,
                 "password":password,
                 "confirmPassword" : confirmPassword,
                 "firstName" : firstName ,
                 "lastName" : lastName ,
-                "username" : username ,
-          
-              })
-                // const res = await fetch("http://localhost:5000/register/",{
-          
-                // method:"POST",
-                // headers: {
-                //   'Content-Type': 'application/json'
-                //           },
-                // body: JSON.stringify({
-                //   "email":email,
-                //   "password":password,
-                //   "confirmPassword" : confirmPassword,
-                //   "firstName" : firstName ,
-                //   "lastName" : lastName ,
-                //   "username" : username ,
-          
-                // })
-              //})
-              .then( () => {
-                try {
-                    navigation.navigate("Login")
-                  } catch (error) {
+                "username" : username 
+                })
+                .then(async (resp) => {
+                  try {
                     
-                  }
-              });
-               console.log('VerifToken :'+response.data)
+                    console.log('resp' , resp.data)
+                      await props.navigation.navigate("Login")
+                    } catch (error) {
+                      
+                    }
+                })
+                .catch(err =>{
+                  console.log("err in sendCred :" ,err)
+                })
+
+              } catch (error) {
+                console.log('generale error in registerScreen SendCred :', error)
+              }
+              
+              //  console.log('VerifToken :'+response.data)
           
                 
           
@@ -72,90 +71,92 @@ export default function RegisterScreen ({navigation}) {
              <> 
              <KeyboardAvoidingView behavior="position">
              
-               <StatusBar backgroundColor="blue" barStyle="light-content" />
-               
-                <Text 
-                style={{fontSize:35,marginLeft:18,marginTop:10,color:"#3b3b3b"}}>welcome to</Text>
-                <Text 
-                style={{fontSize:30,marginLeft:18,color:"blue"}}
-                >Tracking App</Text>
-                
-                <View
-                style={{
-                  borderBottomColor:"blue",
-                  borderBottomWidth:4,
-                  borderRadius:10,
-                  marginLeft:20,
-                  marginRight:150,
-                  marginTop:4
-                }}
-                 />
-                 <ScrollView>
+               <StatusBar backgroundColor="green" barStyle="light-content" />
+            
+                 
                         <Text
                         style={{
-                        fontSize:20,marginLeft:18,marginTop:20
+                        fontSize:20,marginLeft:18,marginTop:20 , color : 'green'
                         }}
                         
-                        >create new account</Text>
-                        <TextInput
-                        label='Email'
-                        mode="outlined"
-                        value={email}
-                        style={{marginLeft:18,marginRight:18,marginTop:18}}
-                        theme={{colors:{primary:"blue"}}}
-                        onChangeText ={(text) => setEmail(text)}
-                    
-                        />
-                        <TextInput
-                        label='UserName'
-                        mode="outlined"
-                        value={username}
-                        style={{marginLeft:18,marginRight:18,marginTop:18}}
-                        theme={{colors:{primary:"blue"}}}
-                        onChangeText ={(text) => setUsername(text)}
-                    
-                        />
-                        <TextInput
-                        label='Last Name'
-                        mode="outlined"
-                        value={lastName}
-                        style={{marginLeft:18,marginRight:18,marginTop:18}}
-                        theme={{colors:{primary:"blue"}}}
-                        onChangeText ={(text) => setLastName(text)}
-                    
-                        />
-                        <TextInput
-                        label='First Name'
-                        mode="outlined"
-                        value={firstName}
-                        style={{marginLeft:18,marginRight:18,marginTop:18}}
-                        theme={{colors:{primary:"blue"}}}
-                        onChangeText ={(text) => setFirstName(text)}
-                    
-                        />
-                        <TextInput
-                        label='password'
-                        mode="outlined"
-                        secureTextEntry={true}
-                        value = {password}
-                        onChangeText = {(text) => setPassword(text)}
-                        style={{marginLeft:18,marginRight:18,marginTop:18}}
-                        theme={{colors:{primary:"blue"}}}
-                        />
-                        <TextInput
-                        label='re-type password'
-                        mode="outlined"
-                        secureTextEntry={true}
-                        value = {confirmPassword}
-                        onChangeText = {(text) => setConfirmPassword(text)}
-                        style={{marginLeft:18,marginRight:18,marginTop:18}}
-                        theme={{colors:{primary:"blue"}}}
-                        />
+                        >Create your Account</Text>
+                         <View
+                          style={{
+                            borderBottomColor:"green",
+                            borderBottomWidth:4,
+                            borderRadius:20,
+                            marginLeft:18,
+                            marginRight:18,
+                            
+                          }}
+                          />
+
+
                         
+                        
+                          <ScrollView>
+                          
+                          <TextInput
+                          label='Email'
+                          mode="outlined"
+                          value={email}
+                          style={{marginLeft:15,marginRight:15,marginTop:15}}
+                          theme={{colors:{primary:"green"}}}
+                          onChangeText ={(text) => setEmail(text)}
+                      
+                          />
+                          <TextInput
+                          label='UserName'
+                          mode="outlined"
+                          value={username}
+                          style={{marginLeft:15,marginRight:15,marginTop:15}}
+                          theme={{colors:{primary:"green"}}}
+                          onChangeText ={(text) => setUsername(text)}
+                      
+                          />
+                          <TextInput
+                          label='Last Name'
+                          mode="outlined"
+                          value={lastName}
+                          style={{marginLeft:15,marginRight:15,marginTop:15}}
+                          theme={{colors:{primary:"green"}}}
+                          onChangeText ={(text) => setLastName(text)}
+                      
+                          />
+                          <TextInput
+                          label='First Name'
+                          mode="outlined"
+                          value={firstName}
+                          style={{marginLeft:15,marginRight:15,marginTop:15}}
+                          theme={{colors:{primary:"green"}}}
+                          onChangeText ={(text) => setFirstName(text)}
+                      
+                          />
+                          <TextInput
+                          label='password'
+                          mode="outlined"
+                          secureTextEntry={true}
+                          value = {password}
+                          onChangeText = {(text) => setPassword(text)}
+                          style={{marginLeft:15,marginRight:15,marginTop:15}}
+                          theme={{colors:{primary:"green"}}}
+                          />
+                          <TextInput
+                          label='re-type password'
+                          mode="outlined"
+                          secureTextEntry={true}
+                          value = {confirmPassword}
+                          onChangeText = {(text) => setConfirmPassword(text)}
+                          style={{marginLeft:15,marginRight:15,marginTop:15}}
+                          theme={{colors:{primary:"green"}}}
+                          />
+                          
+                          </ScrollView>
+                       
                         <Button 
                         mode="contained"
-                        style={{marginLeft:18,marginRight:18,marginTop:18}}
-                            onPress={() => sendCred()}>
+                        style={{marginLeft:15,marginRight:15,marginTop:15, backgroundColor : 'green' , borderRadius : 20}}
+                            onPress={() => sendCred(props)}>
                         signup
                         </Button>
                         <TouchableOpacity>
@@ -163,12 +164,12 @@ export default function RegisterScreen ({navigation}) {
                         style={{
                         fontSize:18,marginLeft:18,marginTop:20
                         }}
-                        onPress ={() => navigation.navigate("Login")} 
+                        onPress ={() => props.navigation.navigate("Login")} 
                         >already have a account ?</Text>
                         </TouchableOpacity>
-                 </ScrollView>
+                 
                 
-                
+                        
               </KeyboardAvoidingView>
               
              </>

@@ -6,7 +6,6 @@ import {    View, Text  ,
             KeyboardAvoidingView,
         }   from 'react-native';
 import { Button ,TextInput} from 'react-native-paper';
-import {CustomHeader} from '../components/index'
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -22,7 +21,7 @@ import AsyncStorage from '@react-native-community/async-storage';
   const sendCred= async ()=>{
 
     try {
-      await axios.post('http://192.168.1.105:5000/login' , {
+      await axios.post('http://192.168.1.110:5000/login' , {
       "username" : username,
       "password" : password
     
@@ -30,6 +29,7 @@ import AsyncStorage from '@react-native-community/async-storage';
     
     .then(async (resp ) => {
       console.log('logged in !')
+      console.log(resp)
       try {
           await AsyncStorage.setItem('token', resp.data.token)
                   
@@ -48,34 +48,37 @@ import AsyncStorage from '@react-native-community/async-storage';
     
    <> 
    <KeyboardAvoidingView behavior="position">
-     <StatusBar backgroundColor="blue" barStyle="light-content" />
-      <Text 
-      style={{fontSize:35,marginLeft:18,marginTop:10,color:"#3b3b3b"}}>welcome to</Text>
-      <Text 
-      style={{fontSize:30,marginLeft:18,color:"blue"}}
-      >Tracking App</Text>
+     <StatusBar backgroundColor="green" barStyle="light-content" />
+     <Image
+     source ={require('../assets/images/city-map.png')}
+     style = {{
+       height : 150 ,
+       width : 150 ,
+       marginLeft : 100
+     }}
+     >
+
+     </Image>
+     <Text 
+      style={{fontSize:22, marginLeft : 20 , marginTop : 18,color:"green"}}
+      >Welcome to Tracking App</Text>
       <View
       style={{
-        borderBottomColor:"blue",
+        borderBottomColor:"green",
         borderBottomWidth:4,
-        borderRadius:10,
-        marginLeft:20,
-        marginRight:150,
-        marginTop:4
+        borderRadius:20,
+        marginLeft:18,
+        marginRight:18,
+        
       }}
        />
-      <Text
-      style={{
-        fontSize:20,marginLeft:18,marginTop:20
-      }}
-      
-      >Login</Text>
+    
       <TextInput
         label='Username'
         mode="outlined"
         value={username}
-        style={{marginLeft:18,marginRight:18,marginTop:18 ,borderRadius:10}}
-        theme={{colors:{primary:"blue"}}}
+        style={{marginLeft:18,marginRight:18,marginTop:18 ,borderRadius:90}}
+        theme={{colors:{primary:"green"}}}
         onChangeText={(text)=>(setUsername(text))}
       />
       <TextInput
@@ -84,12 +87,12 @@ import AsyncStorage from '@react-native-community/async-storage';
         secureTextEntry={true}
         value={password}
         style={{marginLeft:18,marginRight:18,marginTop:18 ,borderRadius:40}}
-        theme={{colors:{primary:"blue"}}}
+        theme={{colors:{primary:"green"}}}
         onChangeText={(text) => setPassword(text)}
       />
       <Button 
         mode="contained"
-        style={{marginLeft:68,marginRight:68,marginTop:28 ,borderRadius:40}}
+        style={{marginLeft:18,marginRight:18,marginTop:18 ,borderRadius:40 , backgroundColor : 'green'}}
         onPress={() => sendCred()}
        >
         Login

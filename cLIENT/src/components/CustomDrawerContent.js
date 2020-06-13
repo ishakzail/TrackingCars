@@ -3,7 +3,7 @@ import { View, Text  , SafeAreaView , Image , TouchableOpacity , ScrollView , Bu
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios'
 
-function CustomDrawerContent ({navigation}) {
+function CustomDrawerContent (props) {
 
   const [username , setUsername] = useState('')
 
@@ -14,7 +14,7 @@ function CustomDrawerContent ({navigation}) {
 
         console.log('token drawer : ' , token)
         
-      await axios.get('http://192.168.1.105:5000/profil',{
+      await axios.get('http://192.168.1.110:5000/profil',{
          headers:{
            'Authorization' : token
            }
@@ -23,7 +23,7 @@ function CustomDrawerContent ({navigation}) {
              setUsername(resp.data.username)
          })
          .catch(err => {
-           console.log('erreur axios profile: '+err)
+           console.log('erreur axios drawer: '+err)
          })
       } catch (error) {
         console.log(' catch finale home '+ error)
@@ -37,9 +37,9 @@ function CustomDrawerContent ({navigation}) {
       const logout = async ()=>{ 
       
       await  AsyncStorage.removeItem('token')
-          .then( ()=>{
-          
-            navigation.navigate('Login')
+          .then(async  (resp)=>{
+            console.log('resp in drawer :' , resp)
+           await props.navigation.navigate('Login')
           })
           .catch(err => {
             console.log( err)
@@ -58,26 +58,53 @@ function CustomDrawerContent ({navigation}) {
                 <ScrollView style={{marginLeft : 5}}>
                   <TouchableOpacity 
                     style={{ marginTop : 20 }}
-                    onPress = {() => navigation.navigate('MenuTab')  } >
-                      <Text>Menu Tab</Text>
+                    onPress = {() => props.navigation.navigate('MenuTab')  } >
+                      
                   </TouchableOpacity>
                   <TouchableOpacity 
                     style={{ marginTop : 20 }}
-                    onPress = {() => navigation.navigate('Notifications')  } >
-                      <Text>Notifications</Text>
-                  </TouchableOpacity>
+                    onPress = {() => props.navigation.navigate('ViewProfile' )  } >
+                      <Text
+                      style ={{marginLeft : 30}}
+                      >View Profile</Text>
+                      <Image
+                      source = {require('../assets/images/user-Profile.png')}
+                      style ={{width : 20 , height : 20 , resizeMode : 'contain'    ,position : 'absolute' }}
+                      
 
+                      />
+                  </TouchableOpacity>
                   <TouchableOpacity 
                     style={{ marginTop : 20 }}
-                    onPress = {() => navigation.navigate('HomeScreen')  } >
-                      <Text>Home</Text>
+                    onPress = {() => props.navigation.navigate('EditProfile' )  } >
+                      <Text
+                      style ={{marginLeft : 30}}
+                      >Edit Profile</Text>
+                      <Image
+                      source = {require('../assets/images/edit-profile.png')}
+                      style ={{width : 20 , height : 20 , resizeMode : 'contain'    ,position : 'absolute' }}
+                      
+
+                      />
                   </TouchableOpacity>
                 </ScrollView>
 
-                <TouchableOpacity 
-                    style={{ marginTop : 20  ,marginLeft : 5}}
+                <TouchableOpacity  
+                    style={{ marginTop : 15 , marginBottom : 20,marginLeft : 5  }}
                     onPress = {() => logout()  } >
-                      <Text>Logout</Text>
+                      <Text
+                        style ={{marginLeft : 30}}
+
+                      >Logout </Text>
+
+                      <Image
+                      source = {require('../assets/images/logout.png')}
+                      style ={{width : 20 , height : 20 , resizeMode : 'contain'  , marginBottom : 25 ,position : 'absolute' }}
+                      
+
+                      />
+
+                          
                   </TouchableOpacity>
             </SafeAreaView>
         );
